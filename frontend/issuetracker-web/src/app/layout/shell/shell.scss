@@ -1,0 +1,19 @@
+.container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 220px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.spacer {
+  flex: 1;
+}
