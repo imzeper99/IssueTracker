@@ -1,2 +1,62 @@
-<h2>Project Detail</h2>
-<p>ProjectId: {{ projectId }}</p>
+<a routerLink="/projects">← Back</a>
+
+<p *ngIf="error" style="color:red">{{ error }}</p>
+
+<ng-container *ngIf="vm$ | async as vm; else loadingTpl">
+  <mat-card style="margin-top: 12px; padding: 12px;">
+    <h2 style="margin:0;">{{ vm[0].name }}</h2>
+    <p style="margin: 4px 0 0 0;">Created: {{ vm[0].createdAt | date:'short' }}</p>
+  </mat-card>
+
+  <mat-card style="margin-top: 12px; padding: 12px;">
+    <h3 style="margin-top:0;">New Issue</h3>
+
+    <mat-form-field style="width:100%;">
+      <mat-label>Title</mat-label>
+      <input matInput [formControl]="title" />
+    </mat-form-field>
+
+    <mat-form-field style="width:100%;">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="3" [formControl]="description"></textarea>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" (click)="createIssue(vm[0].id)" [disabled]="title.invalid" || busy>
+      Create Issue
+    </button>
+  </mat-card>
+
+  <mat-card style="margin-top: 12px; padding: 12px;">
+    <h3 style="margin-top:0;">Issues</h3>
+
+    <div *ngIf="vm[1].length === 0">No issues yet.</div>
+
+    <div *ngFor="let issue of vm[1]; trackBy: trackById" style="border-top:1px solid #eee; padding: 10px 0;">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+        <div>
+          <strong>{{ issue.title }}</strong>
+          <div style="font-size: 12px; opacity: .7;">
+            {{ issue.createdAt | date:'short' }}
+          </div>
+        </div>
+
+        <mat-form-field style="width: 160px;">
+          <mat-label>Status</mat-label>
+          <mat-select [value]="issue.status" (selectionChange)="updateStatus(issue, $event.value)">
+            <mat-option [value]="0">Open</mat-option>
+            <mat-option [value]="1">In Progress</mat-option>
+            <mat-option [value]="2">Done</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <p *ngIf="issue.description" style="margin: 8px 0 0 0;">
+        {{ issue.description }}
+      </p>
+    </div>
+  </mat-card>
+</ng-container>
+
+<ng-template #loadingTpl>
+  <p>Loading...</p>
+</ng-template>
