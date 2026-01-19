@@ -1,14 +1,8 @@
-<main style="padding:16px">
-  <h1>IssueTracker</h1>
+<header style="padding: 12px 16px; border-bottom: 1px solid #ddd;">
+  <strong>IssueTracker</strong>
+</header>
 
-  <button (click)="reload()">Reload</button>
-
-  <p *ngIf="loading">Loading...</p>
-  <p *ngIf="error" style="color:red">{{ error }}</p>
-
-  <ul>
-    <li *ngFor="let p of projects">
-      {{ p.name }} — {{ p.createdAt }}
-    </li>
-  </ul>
+<main style="padding: 16px">
+  <router-outlet></router-outlet>
 </main>
+
