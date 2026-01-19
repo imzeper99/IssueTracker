@@ -1,0 +1,14 @@
+<main style="padding:16px">
+  <h1>IssueTracker</h1>
+
+  <button (click)="reload()">Reload</button>
+
+  <p *ngIf="loading">Loading...</p>
+  <p *ngIf="error" style="color:red">{{ error }}</p>
+
+  <ul>
+    <li *ngFor="let p of projects">
+      {{ p.name }} — {{ p.createdAt }}
+    </li>
+  </ul>
+</main>
